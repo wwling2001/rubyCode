@@ -24,18 +24,49 @@ class SvnOper
 
     def svnLogCmd()
         if (@userName == "") or (@password == "")
-            @cmdStr = "svn log " + @httpPath
+            @cmdStr = "svn log -v " + @httpPath
         else
-            @cmdStr = "svn log " + @httpPath + " --username " + @userName + " --password " + @password
+            @cmdStr = "svn log -v " + @httpPath + " --username " + @userName + " --password " + @password
         end
         
     end
 
     def excCmd()
+	filename = ".\\svnlog.txt"
         svnLogCmd()
         outPut = `#{cmdStr}`
         puts "cmd excute......"
-        puts outPut
+	file=File.new(filename, "w")
+	file.print(outPut)
+	file.close
+	puts "write file successful!"
+        #puts outPut
+    end
+
+    def parseLogInfo()
+    	filename = ".\\svnlog2.txt"
+	
+	#将文件读成一个字符串数组
+	filearr = IO.readlines(filename)
+	
+	#将文件读到一个字符串变量中
+	filecontent = IO.read(filename)
+	#file = File.new(filename, "r")
+
+	#filearr[0]是svn log输出的记录的分割符，然后用这个分隔符将整个内容切分开来	
+	puts filearr[0]
+	fileContentArray = filecontent.split(filearr[0])
+	
+	puts "array size = " 
+	puts fileContentArray.size
+
+	n = 1
+	while n < fileContentArray.size
+		puts "*********************************************"
+		puts fileContentArray[n]
+		n = n + 1
+		puts "*********************************************"
+	end
     end
 end
 
@@ -75,8 +106,8 @@ end
 =end
 
 svnObj = SvnOper.new("http://yet-another-music-application.googlecode.com/svn/trunk", "", "")
-svnObj.excCmd()
-
+#svnObj.excCmd()
+svnObj.parseLogInfo()
 
 
 =begin

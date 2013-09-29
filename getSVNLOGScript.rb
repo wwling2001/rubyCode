@@ -55,8 +55,9 @@ class SvnOper
 
 	#filearr[0]是svn log输出的记录的分割符，然后用这个分隔符将整个内容切分开来	
 	puts filearr[0]
-	fileContentArray = filecontent.split(filearr[0])
+	#fileContentArray = filecontent.split(filearr[0])
 	
+	fileContentArray = filecontent.split(%r{^-+$})
 	puts "array size = " 
 	puts fileContentArray.size
 
@@ -64,6 +65,10 @@ class SvnOper
 	while n < fileContentArray.size
 		puts "*********************************************"
 		puts fileContentArray[n]
+
+		arr = fileContentArray[n].split("\n")
+		puts arr.size
+
 		n = n + 1
 		puts "*********************************************"
 	end
